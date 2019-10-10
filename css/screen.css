@@ -44,15 +44,47 @@
     --color-neutral-xxx-dark: #35374d;
     --color-neutral-xxxx-dark: #20223a;
 
+    --global-page-backgroundColor: var(--color-neutral-xxxx-light);
+    --global-page-backgroundColor-light: #35374d;
+    --global-page-backgroundColor-x-light: #4B4C60;
+    --global-page-backgroundColor-xx-light: #606274;
+    --global-page-backgroundColor-xxx-light: #757787;
+    --global-page-backgroundColor-xxxx-light: #8B8C9A;
+    --global-page-backgroundColor-xxxxx-light: #A0A1AD;
+    --global-page-backgroundColor-xxxxxx-light: #B5B6C0;
+    --global-page-backgroundColor-xxxxxxx-light: #CACCD4;
+    --global-page-backgroundColor-xxxxxxxx-light: #E2E3E7;
+
     /* Shadows */
     --shadow-color: #20223a15;
     --inset-shadow: inset 0 1px 1px var(--shadow-color);
+    --focus-shadow-color: #3385FF30;
+    --focus-shadow: 0 0 0 3px var(--focus-shadow-color);
+
+    --global-page-color: var(--color-neutral-xxxx-dark);
 
     /* border radius */
     --radius: 3px;
 
     /* transitions */
-    --transition-alpha: .1s ease-out;
+	--transition-alpha: .1s ease-out;
+
+	/* input styles */
+	--global-input-backgroundColor: White;
+	--global-input-color: var(--global-color-neutral-xxxx-dark);
+	--global-input-borderColor: var(--global-color-neutral-xxx-light);
+	--global-input-hover-borderColor: var(--global-color-neutral-xx-light);
+	--global-input-focus-borderColor: var(--global-color-alpha);
+	--global-input-boxShadow: 0 1px 3px 1px rgba(0,0,0,.2);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --global-page-color: White;
+        --global-page-backgroundColor: var(--color-neutral-xxxx-dark);
+        --focus-shadow-color: var(--color-alpha-x-light);
+        --focus-shadow: 0 0 0 3px var(--focus-shadow-color);
+    }
 }
 
 /*------------------------------------*\
@@ -69,11 +101,17 @@ html {
     font-size: 16px;
     line-height: 1.5;
     font-family: "Inter UI Web", Helvetica, arial, sans-serif;
-    color: var(--color-neutral-xxxx-dark);
+    color: var(--global-page-color);
+    background-color: var(--global-page-backgroundColor);
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--color-neutral-xxxx-light);
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: var(--color-neutral-xxxx-dark);
+    }
 }
 
 *,
@@ -255,6 +293,12 @@ input::placeholder {
 .o-row--beta {
     background-color: var(--color-alpha);
     background-image: linear-gradient(to bottom right, var(--color-alpha-light), var(--color-alpha-dark));
+}
+
+@media (prefers-color-scheme: dark) {
+  .o-row--beta{
+    background-image: linear-gradient(to bottom right, var(--global-page-backgroundColor-light), var(--global-page-backgroundColor));
+  }
 }
 
 /* size modifiers */
@@ -539,6 +583,20 @@ input::placeholder {
     fill: var(--color-alpha-x-dark);
 }
 
+@media (prefers-color-scheme: dark) {
+  .c-logo__path--1 {
+    fill: var(--logo__path--1--fill, var(--global-input-backgroundColor));
+  }
+
+  .c-logo__path--2 {
+    fill: var(--logo__path--2--fill, var(--global-input-backgroundColor));
+  }
+
+  .c-logo__path--3 {
+    fill: var(--logo__path--3--fill, var(--global-input-backgroundColor));
+  }
+}
+
 /* Light logo alternative */
 
 .c-logo--light .c-logo__path {
@@ -559,6 +617,8 @@ input::placeholder {
     overflow: hidden;
 }
 
+
+
 /* Add padding to child for more flexibility */
 .c-card__body,
 .c-card__footer {
@@ -577,6 +637,17 @@ input::placeholder {
     font-size: 18px;
     line-height: 24px;
     font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+  .c-card,
+  .c-card__footer{
+    background-color: var(--global-page-backgroundColor-x-light);
+  }
+
+  .c-card__footer{
+    border-color: var(--global-page-backgroundColor);
+  }
 }
 
 @media (min-width: 27em) {
@@ -627,6 +698,15 @@ input::placeholder {
     transition: border var(--transition-alpha);
 }
 
+@media (prefers-color-scheme: dark) {
+  .c-input{
+    background-color: var(--global-page-backgroundColor);
+    border: 0;
+    color: white;
+
+  }
+}
+
 .c-input:hover {
     border-color: var(--color-neutral-xx-light);
 }
@@ -635,6 +715,13 @@ input::placeholder {
 .c-input:active {
     border-color: var(--color-alpha-x-light);
     box-shadow: 0 0 0 3px var(--color-alpha-xx-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  .c-input:focus,
+  .c-input:active{
+    box-shadow: var(--focus-shadow);
+  }
 }
 
 /* option input for checkboxes and radio buttons */
@@ -659,6 +746,12 @@ input::placeholder {
 
 .c-label--option {
     padding-bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .c-label{
+    color: var(--global-page-backgroundColor-xxxxx-light);
+  }
 }
 
 /*
@@ -702,11 +795,11 @@ input::placeholder {
 */
 
 .c-option-list {
-
+  margin-bottom: 24px;
 }
 
 .c-option-list__item {
-
+  margin-bottom: 12px;
 }
 
 /*
@@ -719,18 +812,223 @@ input::placeholder {
 
 /* checked state */
 
-.c-custom-input-option-hidden:checked + .c-custom-input-option-label {
+.c-option--hidden:checked + .c-custom-option {
     /*
         Do magic stuff here, for example:
-        background-color: red;
+
     */
 }
 
-.c-custom-input-option-hidden:checked + .c-custom-input-option-label .c-custom-input-option__symbol {
-    /*
-        Do magic stuff here, for example:
-        fill: blue;
-    */
+.c-custom-option {
+  display: flex;
+}
+
+.c-custom-option__fake-input{
+  display: flex;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border: 1px solid var(--color-neutral-xxx-light);
+  box-shadow: var(--inset-shadow);
+  border-radius: var(--radius);
+}
+
+.c-custom-option__fake-input--radio{
+  border-radius: 50%;
+}
+
+.c-custom-option__symbol {
+  display: block;
+  opacity: 0; /* Hide the svg initially */
+  transition: all var(--transition-alpha);
+}
+
+.c-custom-option__fake-input--checkbox .c-custom-option__symbol {
+  display: flex;
+  align-self: center;
+  margin: 0 auto;
+  height: 10px;
+  width: 10px;
+  fill: var(--color-alpha);
+}
+
+.c-custom-option__fake-input--radio .c-custom-option__symbol {
+  display: flex;
+  align-self: center;
+  margin: 0 auto;
+  height: 6px;
+  width: 6px;
+  background-color: var(--color-alpha);
+  border-radius: 50%;
+}
+
+.c-option--hidden:checked + .c-custom-option .c-custom-option__symbol {
+    opacity: 1;
+}
+
+/* hover state */
+
+.c-custom-option__fake-input:hover{
+  border-color: var(--color-neutral-xx-light);
+}
+
+/* focused and active state */
+
+.c-option--hidden:focus + .c-label .c-custom-option__fake-input,
+.c-custom-option__fake-input:active{
+    border: 1px solid var(--color-alpha-x-light);
+    box-shadow: var(--focus-shadow);
+}
+
+@media (prefers-color-scheme: dark) {
+  .c-custom-option__fake-input{
+    border: 0;
+    background-color: var(--global-page-backgroundColor);
+  }
+}
+
+/*
+    custom toggle
+*/
+
+.c-toggle{
+
+}
+
+.c-custom-toggle{
+  display: flex;
+  align-items: center;
+}
+
+.c-custom-toggle__fake-input{
+  display: block;
+  border: 1px solid var(--color-neutral-xxx-light);
+  background-color: var(--color-neutral-xxxx-light);
+  border-radius: 24px;
+  width: 48px;
+  height: 24px;
+  margin-right: 16px;
+  transition: all var(--transition-alpha);
+}
+
+.c-custom-toggle__fake-input::after{
+  content: '';
+  display: block;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: var(--global-input-boxShadow);
+  transition: all var(--transition-alpha);
+}
+
+.c-option--hidden:checked + .c-custom-toggle {
+    --toggle-translateX: 18px;
+    --toggle-borderColor:var(--color-alpha-x-light);
+    --toggle-backgroundColor: var(--color-alpha);
+
+    --toggle-boxShadow:0 0 0 4px;
+  }
+
+.c-option--hidden:checked + .c-custom-toggle .c-custom-toggle__fake-input{
+  background-color: var(--color-alpha);
+  border-color: var(--toggle-borderColor);
+}
+
+.c-option--hidden:checked + .c-custom-toggle .c-custom-toggle__fake-input::after{
+  transform: translateX(calc(var(--toggle-translateX) + 6px));
+}
+
+.c-option--hidden:focus + .c-custom-toggle .c-custom-toggle__fake-input,
+.c-option--hidden:focus + .c-custom-toggle .c-custom-toggle__fake-input:active{
+  border-color: var(--toggle-borderColor);
+  box-shadow: var(--focus-shadow);
+}
+
+.c-option--hidden:focus:checked + .c-custom-toggle .c-custom-toggle__fake-input,
+.c-option--hidden:focus:checked + .c-custom-toggle .c-custom-toggle__fake-input:active{
+  border-color: var(--toggle-borderColor);
+}
+
+.c-option--hidden:active + .c-custom-toggle .c-custom-toggle__fake-input::after {
+  border-radius: 28px;
+  width: 28px;
+}
+
+.c-option--hidden:active:checked + .c-custom-toggle .c-custom-toggle__fake-input::after {
+  width: 28px;
+  transform: translateX(var(--toggle-translateX));
+}
+
+.c-custom-toggle-list .c-custom-toggle-list__item {
+  margin-bottom: 24px;
+}
+
+.c-custom-toggle--inverted{
+ flex-direction: row-reverse;
+ justify-content: space-between;
+ width: 100%;
+ margin-right: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .c-custom-toggle__fake-input{
+    background-color: var(--global-page-backgroundColor);
+    /*border-color: var(--global-page-backgroundColor-x-light); */
+    border-color: var(--global-page-backgroundColor);
+  }
+}
+
+/*
+
+  custom select
+
+*/
+
+.c-custom-select{
+	position: relative;
+
+}
+.c-custom-select__input{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 100%;
+	border-radius: 3px;
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 24px;
+	padding: 11px 16px;
+	outline: none;
+	transition: border 0.1s ease-out;
+	box-shadow: var(--global-inset-shadow);
+
+	border: 1px solid var(--color-neutral-xxx-light);
+	background-color: var(--input-backgroundColor, var(--global-input-backgroundColor));
+	color: var(--global-input-color);
+}
+.c-custom-select__symbol{
+	width: 24px;
+	height: 24px;
+	display: block;
+	fill: var(--color-neutral-xx-light);
+	position: absolute;
+	top: -2px;
+	right: 12px;
+	pointer-events: none;
+
+}
+.c-custom-select__input:focus,
+.c-custom-select__input:active{
+	box-shadow: var(--focus-shadow);
+	border: 1px solid var(--color-neutral-xxx-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  .c-custom-select__input{
+    background-color: var(--global-page-backgroundColor);
+    border: 0;
+  }
 }
 
 /*------------------------------------*\
